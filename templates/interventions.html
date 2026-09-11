@@ -1,0 +1,526 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Interventions - CNC ERP</title>
+
+
+    <!-- Bootstrap -->
+
+    <link
+        href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+        rel="stylesheet"
+     >
+    <link
+        rel="stylesheet"
+        href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css"
+     >
+   <style>
+
+        /* Bouton Supprimer */
+
+        .btn-action:hover {
+
+            background-color: red;
+
+            border-color: red;
+
+            color: white;
+
+        }
+
+    </style>
+
+</head>
+
+
+<body class="bg-light">
+
+
+<div class="container mt-5">
+
+
+    <!-- ========================= -->
+    <!-- Dashboard -->
+    <!-- ========================= -->
+
+    <div class="text-end mb-4">
+
+        <a
+            href="/"
+            class="btn btn-outline-primary"
+        >
+            <i class="bi bi-house"></i>
+             Dashboard
+
+        </a>
+
+    </div>
+
+
+    <!-- ========================= -->
+    <!-- Titre -->
+    <!-- ========================= -->
+
+    <h1 class="mb-4">
+
+       Liste des Interventions
+
+    </h1>
+
+
+    <!-- ========================= -->
+    <!-- Ajouter -->
+    <!-- Admin seulement -->
+    <!-- ========================= -->
+
+    {% if session.get("role") == "Admin" %}
+
+    <a
+        href="/add_intervention"
+        class="btn btn-outline-primary mb-3"
+    >
+
+        + Ajouter Intervention
+
+    </a>
+
+    {% endif %}
+
+
+    <!-- ========================= -->
+    <!-- Tableau -->
+    <!-- ========================= -->
+
+    <div class="table-responsive">
+
+
+        <table class="table table-striped table-bordered">
+
+
+            <!-- En-tête -->
+
+            <thead class="table-dark">
+
+                <tr>
+
+                    <th>ID</th>
+
+                    <th>Date</th>
+
+                    <th>Durée</th>
+
+                    <th>Type</th>
+
+                    <th>Description</th>
+
+                    <th>Machine</th>
+
+                    <th>Technicien</th>
+
+                    <th>Statut</th>
+
+                    <th>Actions</th>
+
+                </tr>
+
+            </thead>
+
+
+            <!-- Corps -->
+
+            <tbody>
+
+
+            {% for intervention in interventions %}
+
+
+                <tr>
+
+
+                    <!-- ID -->
+
+                    <td>
+
+                        {{ intervention[0] }}
+
+                    </td>
+
+
+                    <!-- Date -->
+
+                    <td>
+
+                        {{ intervention[1] }}
+
+                    </td>
+
+
+                    <!-- Durée -->
+
+                    <td>
+
+                        {{ intervention[2] or '' }}
+
+                    </td>
+
+
+                    <!-- Type -->
+
+                    <td>
+
+                        {{ intervention[3] }}
+
+                    </td>
+
+
+                    <!-- Description -->
+
+                    <td>
+
+                        {{ intervention[4] or '' }}
+
+                    </td>
+
+
+                    <!-- Machine -->
+
+                    <td>
+
+                        {{ intervention[5] }}
+
+                    </td>
+
+
+                    <!-- Technicien -->
+
+                    <td>
+
+                        {{ intervention[6] }}
+
+                    </td>
+
+
+                    <!-- Statut -->
+
+                    <td>
+
+                        {% if intervention[7] == "En attente" %}
+
+                            <span class="badge bg-warning text-dark">
+                                En attente
+                            </span>
+
+                        {% elif intervention[7] == "En cours" %}
+
+                            <span class="badge bg-primary">
+                                En cours
+                            </span>
+
+                        {% elif intervention[7] == "Terminée" %}
+
+                            <span class="badge bg-success">
+                                Terminée
+                            </span>
+
+                        {% elif intervention[7] == "Annulée" %}
+
+                            <span class="badge bg-danger">
+                                Annulée
+                            </span>
+
+                        {% else %}
+
+                            <span class="badge bg-secondary">
+                                {{ intervention[7] }}
+                            </span>
+
+                        {% endif %}
+
+                    </td>
+                                        <!-- ========================= -->
+                    <!-- Actions -->
+                    <!-- ========================= -->
+
+                    <td>
+
+
+                    {% if session.get("role") == "Admin" %}
+
+
+                        <!-- Modifier -->
+
+                        <a
+                            href="/edit_intervention/{{ intervention[0] }}"
+                            class="btn btn-outline-secondary btn-sm mb-1"
+                        >
+
+                            Modifier
+
+                        </a>
+
+
+                        <!-- Supprimer -->
+
+                        <button
+                            type="button"
+                            class="btn btn-outline-secondary btn-sm btn-action"
+                            data-bs-toggle="modal"
+                            data-bs-target="#deleteInterventionModal{{ intervention[0] }}"
+                        >
+
+                            Supprimer
+
+                        </button>
+
+
+                    {% else %}
+
+
+                        <span class="text-muted">
+
+                            —
+
+                        </span>
+
+
+                    {% endif %}
+
+
+                    </td>
+
+
+                </tr>
+
+
+                <!-- ================================= -->
+                <!-- Modal Suppression Intervention -->
+                <!-- ================================= -->
+
+                {% if session.get("role") == "Admin" %}
+
+                <div
+                    class="modal fade"
+                    id="deleteInterventionModal{{ intervention[0] }}"
+                    tabindex="-1"
+                    aria-hidden="true"
+                >
+
+
+                    <div
+                        class="modal-dialog modal-dialog-centered"
+                    >
+
+
+                        <div class="modal-content">
+
+
+                            <!-- ================= -->
+                            <!-- Header -->
+                            <!-- ================= -->
+
+                            <div class="modal-header">
+
+                                <h5 class="modal-title">
+
+                                    Confirmation
+
+                                </h5>
+
+
+                                <button
+                                    type="button"
+                                    class="btn-close"
+                                    data-bs-dismiss="modal"
+                                    aria-label="Close"
+                                ></button>
+
+                            </div>
+
+
+                            <!-- ================= -->
+                            <!-- Body -->
+                            <!-- ================= -->
+
+                            <div class="modal-body text-center">
+
+
+                                <div
+                                    style="
+                                        font-size: 45px;
+                                        margin-bottom: 10px;
+                                    "
+                                >
+
+                                    ⚠️
+
+                                </div>
+
+
+                                <h5>
+
+                                    Supprimer cette intervention ?
+
+                                </h5>
+
+
+                                <p class="text-muted">
+
+                                    Êtes-vous sûr de vouloir
+                                    supprimer cette intervention ?
+
+                                </p>
+
+
+                                <!-- Type -->
+
+                                <p>
+
+                                    <strong>
+
+                                        {{ intervention[3] }}
+
+                                    </strong>
+
+                                </p>
+
+
+                                <!-- Date -->
+
+                                <p class="text-muted">
+
+                                    Date :
+                                    {{ intervention[1] }}
+
+                                </p>
+
+
+                                <!-- Machine -->
+
+                                <p class="text-muted">
+
+                                    Machine :
+                                    {{ intervention[5] }}
+
+                                </p>
+
+
+                                <!-- Technicien -->
+
+                                <p class="text-muted">
+
+                                    Technicien :
+                                    {{ intervention[6] }}
+
+                                </p>
+
+
+                                <!-- Statut -->
+
+                                <p class="text-muted">
+
+                                    Statut :
+                                    {{ intervention[7] }}
+
+                                </p>
+
+
+                            </div>
+
+
+                            <!-- ================= -->
+                            <!-- Footer -->
+                            <!-- ================= -->
+
+                            <div class="modal-footer">
+
+
+                                <!-- Annuler -->
+
+                                <button
+                                    type="button"
+                                    class="btn btn-secondary"
+                                    data-bs-dismiss="modal"
+                                >
+
+                                    Annuler
+
+                                </button>
+
+
+                                <!-- Confirmer -->
+
+                                <a
+                                    href="/delete_intervention/{{ intervention[0] }}"
+                                    class="btn btn-danger"
+                                >
+
+                                    Supprimer
+
+                                </a>
+
+
+                            </div>
+
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+                {% endif %}
+
+
+            {% else %}
+
+
+                <!-- Aucun intervention -->
+
+                <tr>
+
+                    <td
+                        colspan="9"
+                        class="text-center text-muted"
+                    >
+
+                        Aucune intervention enregistrée.
+
+                    </td>
+
+                </tr>
+
+
+            {% endfor %}
+
+
+            </tbody>
+
+
+        </table>
+
+
+    </div>
+
+
+</div>
+
+
+<!-- ========================= -->
+<!-- Bootstrap JavaScript -->
+<!-- ========================= -->
+
+<script
+    src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js">
+</script>
+
+
+</body>
+
+</html>

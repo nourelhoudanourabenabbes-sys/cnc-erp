@@ -1,0 +1,795 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Paramètres</title>
+
+    <link
+        href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+        rel="stylesheet"
+    >
+
+    <link
+        rel="stylesheet"
+        href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css"
+    >
+
+    <style>
+
+        body {
+            background: #f4f7fb;
+            font-family: Arial, sans-serif;
+        }
+
+        .page-title {
+            color: #071b41;
+            font-weight: 700;
+        }
+
+        .page-subtitle {
+            color: #7b8798;
+        }
+
+        .settings-card {
+            background: white;
+            border: 1px solid #e7ebf2;
+            border-radius: 16px;
+            box-shadow: 0 4px 18px rgba(0,0,0,0.05);
+            overflow: hidden;
+        }
+
+        .settings-menu {
+            background: #ffffff;
+            border-right: 1px solid #e7ebf2;
+            min-height: 620px;
+            padding: 15px;
+        }
+
+        .settings-menu button {
+            width: 100%;
+            text-align: left;
+            border: none;
+            background: transparent;
+            padding: 13px 15px;
+            border-radius: 9px;
+            margin-bottom: 5px;
+            color: #526078;
+            font-weight: 500;
+        }
+
+        .settings-menu button i {
+            margin-right: 10px;
+        }
+
+        .settings-menu button:hover {
+            background: #eef4ff;
+            color: #0d6efd;
+        }
+
+        .settings-menu button.active {
+            background: #e9f1ff;
+            color: #0d6efd;
+            font-weight: 600;
+        }
+
+        .settings-content {
+            padding: 30px;
+        }
+
+        .section-title {
+            color: #071b41;
+            font-weight: 700;
+        }
+
+        .section-description {
+            color: #7b8798;
+            font-size: 14px;
+        }
+
+        .form-label {
+            font-weight: 600;
+            color: #344054;
+        }
+
+        .form-control {
+            border-radius: 9px;
+            padding: 10px 12px;
+        }
+
+        .btn-save {
+            background: #0d6efd;
+            border: none;
+            border-radius: 9px;
+            padding: 10px 20px;
+            color: white;
+        }
+
+        .btn-save:hover {
+            background: #0b5ed7;
+            color: white;
+        }
+
+        .setting-section {
+            display: none;
+        }
+
+        .setting-section.active {
+            display: block;
+        }
+
+        .security-box {
+            border: 1px solid #e7ebf2;
+            border-radius: 10px;
+            padding: 18px;
+            margin-bottom: 15px;
+        }
+
+        .security-box i {
+            font-size: 24px;
+            color: #0d6efd;
+        }
+
+        .form-check-input:checked {
+            background-color: #0d6efd;
+            border-color: #0d6efd;
+        }
+        /* ================================
+           ESPACEMENT PAGE PARAMÈTRES
+        ================================ */
+
+        /* كل section في صفحة paramètres */
+        .settings-section {
+            margin-bottom: 45px;
+        }
+
+        /* Profil */
+        .profile-section {
+            padding-bottom: 35px;
+            border-bottom: 1px solid #e5e7eb;
+        }
+
+        /* Sécurité */
+        .security-card {
+            margin-top: 45px;
+            padding-top: 10px;
+        }
+
+        /* العنوان متاع Sécurité */
+        .security-card h3 {
+            margin-top: 0;
+            margin-bottom: 12px;
+            font-size: 28px;
+        }
+
+        /* الوصف */
+        .security-description {
+            margin-bottom: 30px;
+            color: #555;
+            font-size: 16px;
+        }
+
+        /* كل مجموعة input */
+        .security-card .form-group {
+            margin-bottom: 22px;
+        }
+
+        /* Label */
+        .security-card label {
+            display: block;
+            margin-bottom: 9px;
+            font-weight: 600;
+            font-size: 16px;
+        }
+
+        /* Inputs */
+        .security-card .form-control {
+            width: 100%;
+            min-height: 52px;
+            padding: 12px 15px;
+            border: 1px solid #d9dee5;
+            border-radius: 10px;
+            font-size: 16px;
+            box-sizing: border-box;
+        }
+
+        /* لما نضغط على input */
+        .security-card .form-control:focus {
+            outline: none;
+            border-color: #0d6efd;
+            box-shadow: 0 0 0 3px rgba(13, 110, 253, 0.12);
+        }
+
+        /* Button */
+        .security-card .btn-save {
+            margin-top: 8px;
+            padding: 13px 22px;
+            border-radius: 9px;
+            font-size: 16px;
+        }
+
+        /* Messages */
+        .security-card .alert {
+            margin-bottom: 25px;
+            padding: 13px 16px;
+            border-radius: 8px;
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+<div class="container-fluid p-4">
+
+
+    <!-- HEADER -->
+
+    <div class="d-flex justify-content-between align-items-center mb-4">
+
+        <div>
+
+            <h1 class="page-title mb-1">
+                Paramètres
+            </h1>
+
+            <p class="page-subtitle mb-0">
+                Gérez les paramètres de votre système CNC ERP
+            </p>
+
+        </div>
+
+
+        <a
+            href="/"
+            class="btn btn-outline-primary"
+        >
+            <i class="bi bi-house"></i>
+            Dashboard
+        </a>
+
+    </div>
+
+
+    <!-- SETTINGS -->
+
+    <div class="settings-card">
+
+        <div class="row g-0">
+
+
+            <!-- MENU -->
+
+            <div class="col-md-3">
+
+                <div class="settings-menu">
+
+
+                    <button
+                        class="active"
+                        onclick="showSection('entreprise', this)"
+                    >
+
+                        <i class="bi bi-building"></i>
+
+                        Entreprise
+
+                    </button>
+
+
+                    <button
+                        onclick="showSection('profil', this)"
+                    >
+
+                        <i class="bi bi-person"></i>
+
+                        Profil
+
+                    </button>
+
+
+                    <button
+                        onclick="showSection('notifications', this)"
+                    >
+
+                        <i class="bi bi-bell"></i>
+
+                        Notifications
+
+                    </button>
+
+
+                    <button
+                        onclick="showSection('securite', this)"
+                    >
+
+                        <i class="bi bi-shield-lock"></i>
+
+                        Sécurité
+
+                    </button>
+
+
+                </div>
+
+            </div>
+
+
+            <!-- CONTENT -->
+
+            <div class="col-md-9">
+
+                <div class="settings-content">
+
+
+                    <!-- ENTREPRISE -->
+
+                    <div
+                        id="entreprise"
+                        class="setting-section active"
+                    >
+
+                        <h3 class="section-title">
+                            Informations de l'entreprise
+                        </h3>
+
+                        <p class="section-description">
+                            Informations générales de votre entreprise.
+                        </p>
+
+
+                        <hr>
+
+
+                        <div class="row">
+
+
+                            <div class="col-md-6 mb-3">
+
+                                <label class="form-label">
+                                    Nom de l'entreprise
+                                </label>
+
+                                <input
+                                    type="text"
+                                    class="form-control"
+                                    placeholder="CNC Engineering"
+                                >
+
+                            </div>
+
+
+                            <div class="col-md-6 mb-3">
+
+                                <label class="form-label">
+                                    Téléphone
+                                </label>
+
+                                <input
+                                    type="text"
+                                    class="form-control"
+                                    placeholder="+216 XX XXX XXX"
+                                >
+
+                            </div>
+
+
+                            <div class="col-md-6 mb-3">
+
+                                <label class="form-label">
+                                    Email
+                                </label>
+
+                                <input
+                                    type="email"
+                                    class="form-control"
+                                    placeholder="contact@entreprise.com"
+                                >
+
+                            </div>
+
+
+                            <div class="col-md-6 mb-3">
+
+                                <label class="form-label">
+                                    Site web
+                                </label>
+
+                                <input
+                                    type="text"
+                                    class="form-control"
+                                    placeholder="www.entreprise.com"
+                                >
+
+                            </div>
+
+
+                            <div class="col-12 mb-3">
+
+                                <label class="form-label">
+                                    Adresse
+                                </label>
+
+                                <textarea
+                                    class="form-control"
+                                    rows="3"
+                                    placeholder="Adresse de l'entreprise"
+                                ></textarea>
+
+                            </div>
+
+
+                        </div>
+
+
+                        <button class="btn-save">
+                            <i class="bi bi-check-lg"></i>
+                            Enregistrer
+                        </button>
+
+                    </div>
+
+
+                    <!-- PROFIL -->
+
+                    <div
+                        id="profil"
+                        class="setting-section"
+                    >
+
+                        <h3 class="section-title">
+                            Profil utilisateur
+                        </h3>
+
+                        <p class="section-description">
+                            Gérez vos informations personnelles.
+                        </p>
+
+                        <hr>
+
+                        <form action="/modifier_profil" method="POST">
+
+                            <div class="row">
+
+                                <div class="col-md-6 mb-3">
+
+                                    <label class="form-label">
+                                        Nom
+                                    </label>
+
+                                    <input
+                                        type="text"
+                                        name="nom"
+                                        class="form-control"
+                                        value="{{ session['nom'] }}"
+                                        required
+                                    >
+
+                                </div>
+
+
+                                <div class="col-md-6 mb-3">
+
+                                    <label class="form-label">
+                                        Prénom
+                                    </label>
+
+                                    <input
+                                        type="text"
+                                        name="prenom"
+                                        class="form-control"
+                                        value="{{ session['prenom'] }}"
+                                        required
+                                    >
+
+                                </div>
+
+
+                                <div class="col-md-12 mb-4">
+
+                                    <label class="form-label">
+                                        Email
+                                    </label>
+
+                                    <input
+                                        type="email"
+                                        name="email"
+                                        class="form-control"
+                                        required
+                                    >
+
+                                </div>
+
+                            </div>
+
+
+                            <button
+                                type="submit"
+                                class="btn-save"
+                            >
+
+                                <i class="bi bi-check-lg"></i>
+
+                                Enregistrer
+
+                            </button>
+
+                        </form>
+
+                    </div>
+
+
+                    <!-- NOTIFICATIONS -->
+
+                    <div
+                        id="notifications"
+                        class="setting-section"
+                    >
+
+                        <h3 class="section-title">
+                            Notifications
+                        </h3>
+
+                        <p class="section-description">
+                            Configurez les notifications du système.
+                        </p>
+
+
+                        <hr>
+
+
+                        <div class="security-box">
+
+                            <div class="d-flex justify-content-between">
+
+                                <div>
+
+                                    <strong>
+                                        Alertes de stock
+                                    </strong>
+
+                                    <p class="text-muted mb-0">
+                                        Recevoir une notification lorsque
+                                        le stock atteint le seuil d'alerte.
+                                    </p>
+
+                                </div>
+
+
+                                <div class="form-check form-switch">
+
+                                    <input
+                                        class="form-check-input"
+                                        type="checkbox"
+                                        checked
+                                    >
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+
+                        <div class="security-box">
+
+                            <div class="d-flex justify-content-between">
+
+                                <div>
+
+                                    <strong>
+                                        Nouvelles tâches
+                                    </strong>
+
+                                    <p class="text-muted mb-0">
+                                        Être informé lorsqu'une tâche
+                                        est assignée.
+                                    </p>
+
+                                </div>
+
+
+                                <div class="form-check form-switch">
+
+                                    <input
+                                        class="form-check-input"
+                                        type="checkbox"
+                                        checked
+                                    >
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+
+                        <div class="security-box">
+
+                            <div class="d-flex justify-content-between">
+
+                                <div>
+
+                                    <strong>
+                                        Interventions
+                                    </strong>
+
+                                    <p class="text-muted mb-0">
+                                        Recevoir les notifications
+                                        concernant les interventions.
+                                    </p>
+
+                                </div>
+
+
+                                <div class="form-check form-switch">
+
+                                    <input
+                                        class="form-check-input"
+                                        type="checkbox"
+                                    >
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- SECURITE -->
+
+                    <div class="security-card">
+
+                        <h3>
+                            <i class="bi bi-shield-lock"></i>
+                            Sécurité
+                        </h3>
+
+                        <p class="security-description">
+                            Modifiez régulièrement votre mot de passe pour sécuriser votre compte.
+                        </p>
+
+                        {% if request.args.get('password_success') %}
+                            <div class="alert alert-success">
+                                <i class="bi bi-check-circle"></i>
+                                Mot de passe modifié avec succès.
+                            </div>
+                        {% endif %}
+
+                        {% if request.args.get('password_error') == 'empty' %}
+                            <div class="alert alert-danger">
+                                Veuillez remplir tous les champs.
+                            </div>
+                        {% endif %}
+
+                        {% if request.args.get('password_error') == 'old' %}
+                            <div class="alert alert-danger">
+                                L'ancien mot de passe est incorrect.
+                            </div>
+                        {% endif %}
+
+                        {% if request.args.get('password_error') == 'match' %}
+                            <div class="alert alert-danger">
+                                Les deux nouveaux mots de passe ne correspondent pas.
+                            </div>
+                        {% endif %}
+
+                        {% if request.args.get('password_error') == 'length' %}
+                            <div class="alert alert-danger">
+                                Le nouveau mot de passe doit contenir au minimum 8 caractères.
+                            </div>
+                        {% endif %}
+
+                        <form method="POST" action="/modifier_mot_de_passe">
+
+                            <div class="form-group">
+                                <label>Mot de passe actuel</label>
+
+                                <input
+                                    type="password"
+                                    name="ancien_password"
+                                    class="form-control"
+                                    placeholder="Votre mot de passe actuel"
+                                    required
+                                >
+                            </div>
+
+
+                            <div class="form-group">
+                                <label>Nouveau mot de passe</label>
+
+                                <input
+                                    type="password"
+                                    name="nouveau_password"
+                                    class="form-control"
+                                    placeholder="Nouveau mot de passe"
+                                    minlength="8"
+                                    required
+                                >
+                            </div>
+
+
+                            <div class="form-group">
+                                <label>Confirmer le nouveau mot de passe</label>
+
+                                <input
+                                    type="password"
+                                    name="confirmation_password"
+                                    class="form-control"
+                                    placeholder="Confirmer le nouveau mot de passe"
+                                    minlength="8"
+                                    required
+                                >
+                            </div>
+
+
+                            <button type="submit" class="btn-save">
+                                <i class="bi bi-key"></i>
+                                Modifier le mot de passe
+                            </button>
+
+                        </form>
+
+                    </div>
+                </div>
+
+            </div>
+
+
+        </div>
+
+    </div>
+
+
+</div>
+
+
+<script>
+
+function showSection(sectionId, button) {
+
+    document
+        .querySelectorAll(".setting-section")
+        .forEach(section => {
+
+            section.classList.remove("active");
+
+        });
+
+
+    document
+        .querySelectorAll(".settings-menu button")
+        .forEach(btn => {
+
+            btn.classList.remove("active");
+
+        });
+
+
+    document
+        .getElementById(sectionId)
+        .classList.add("active");
+
+
+    button.classList.add("active");
+
+}
+
+</script>
+
+
+</body>
+
+</html>

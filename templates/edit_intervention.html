@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Modifier Intervention - CNC ERP</title>
+
+    <link
+        href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+        rel="stylesheet"
+    >
+
+</head>
+
+
+<body class="bg-light">
+
+
+<div class="container mt-5">
+
+    <div class="card shadow-sm">
+
+        <div class="card-body p-4">
+
+            <h1 class="mb-4">
+                Modifier l'Intervention
+            </h1>
+
+
+            {% if error %}
+
+            <div class="alert alert-danger">
+                {{ error }}
+            </div>
+
+            {% endif %}
+
+
+            <form method="POST">
+
+
+                <!-- Date -->
+
+                <div class="mb-3">
+
+                    <label class="form-label">
+                        Date d'intervention
+                    </label>
+
+                    <input
+                        type="date"
+                        name="date_intervention"
+                        class="form-control"
+                        value="{{ intervention[1] }}"
+                        required
+                    >
+
+                </div>
+
+
+                <!-- Durée -->
+
+                <div class="mb-3">
+
+                    <label class="form-label">
+                        Durée (heures)
+                    </label>
+
+                    <input
+                        type="number"
+                        name="duree"
+                        class="form-control"
+                        step="0.5"
+                        min="0"
+                        value="{{ intervention[2] or '' }}"
+                    >
+
+                </div>
+
+
+                <!-- Type -->
+
+                <div class="mb-3">
+
+                    <label class="form-label">
+                        Type d'intervention
+                    </label>
+
+                    <select
+                        name="type_intervention"
+                        class="form-select"
+                        required
+                    >
+
+                        <option value="Maintenance"
+                            {% if intervention[3] == "Maintenance" %}selected{% endif %}>
+                            Maintenance
+                        </option>
+
+                        <option value="Réparation"
+                            {% if intervention[3] == "Réparation" %}selected{% endif %}>
+                            Réparation
+                        </option>
+
+                        <option value="Installation"
+                            {% if intervention[3] == "Installation" %}selected{% endif %}>
+                            Installation
+                        </option>
+
+                        <option value="Diagnostic"
+                            {% if intervention[3] == "Diagnostic" %}selected{% endif %}>
+                            Diagnostic
+                        </option>
+
+                    </select>
+
+                </div>
+
+
+                <!-- Description -->
+
+                <div class="mb-3">
+
+                    <label class="form-label">
+                        Description
+                    </label>
+
+                    <textarea
+                        name="description"
+                        class="form-control"
+                        rows="4"
+                    >{{ intervention[4] or '' }}</textarea>
+
+                </div>
+
+
+                <!-- Machine -->
+
+                <div class="mb-3">
+
+                    <label class="form-label">
+                        Machine
+                    </label>
+
+                    <select
+                        name="id_machine"
+                        class="form-select"
+                        required
+                    >
+
+                        {% for machine in machines %}
+
+                        <option
+                            value="{{ machine[0] }}"
+                            {% if machine[0] == intervention[5] %}selected{% endif %}
+                        >
+
+                            {{ machine[1] }}
+                            {{ machine[2] }}
+                            - N° série : {{ machine[3] }}
+
+                        </option>
+
+                        {% endfor %}
+
+                    </select>
+
+                </div>
+
+
+                <!-- Technicien -->
+
+                <div class="mb-3">
+
+                    <label class="form-label">
+                        Technicien
+                    </label>
+
+                    <select
+                        name="id_technicien"
+                        class="form-select"
+                        required
+                    >
+
+                        {% for technicien in techniciens %}
+
+                        <option
+                            value="{{ technicien[0] }}"
+                            {% if technicien[0] == intervention[6] %}selected{% endif %}
+                        >
+
+                            {{ technicien[2] }}
+                            {{ technicien[1] }}
+
+                            {% if technicien[3] %}
+                                - {{ technicien[3] }}
+                            {% endif %}
+
+                        </option>
+
+                        {% endfor %}
+
+                    </select>
+
+                </div>
+
+
+                <!-- Statut -->
+
+                <div class="mb-4">
+
+                    <label class="form-label">
+                        Statut
+                    </label>
+
+                    <select
+                        name="statut"
+                        class="form-select"
+                        required
+                    >
+
+                        <option value="En attente"
+                            {% if intervention[7] == "En attente" %}selected{% endif %}>
+                            En attente
+                        </option>
+
+                        <option value="En cours"
+                            {% if intervention[7] == "En cours" %}selected{% endif %}>
+                            En cours
+                        </option>
+
+                        <option value="Terminée"
+                            {% if intervention[7] == "Terminée" %}selected{% endif %}>
+                            Terminée
+                        </option>
+
+                        <option value="Annulée"
+                            {% if intervention[7] == "Annulée" %}selected{% endif %}>
+                            Annulée
+                        </option>
+
+                    </select>
+
+                </div>
+
+
+                <!-- Boutons -->
+
+                <button
+                    type="submit"
+                    class="btn btn-outline-primary"
+                >
+                    Enregistrer
+                </button>
+
+
+                <a
+                    href="/interventions"
+                    class="btn btn-outline-secondary ms-2"
+                >
+                    Annuler
+                </a>
+
+
+            </form>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+</body>
+
+</html>

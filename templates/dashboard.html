@@ -1,0 +1,1865 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>CNC FABRICATION Dashboard</title>
+
+
+    <!-- =========================
+         BOOTSTRAP
+    ========================== -->
+
+    <link
+        href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+        rel="stylesheet"
+    >
+
+
+    <!-- =========================
+         BOOTSTRAP ICONS
+    ========================== -->
+
+    <link
+        rel="stylesheet"
+        href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css"
+    >
+
+
+    <style>
+
+        /* =========================
+           BODY
+        ========================= */
+
+        body {
+            background-color: #f5f7fb;
+            margin: 0;
+        }
+
+
+        /* =========================
+           SIDEBAR
+        ========================= */
+
+        .sidebar {
+            background-color: #021234;
+            min-height: 100vh;
+
+            display: flex;
+            flex-direction: column;
+
+            position: relative;
+        }
+
+
+        .logo {
+            width: 110px;
+            height: 110px;
+
+            object-fit: contain;
+        }
+
+
+        .company-description {
+            font-size: 12px;
+
+            color: #d0d7e5;
+
+            line-height: 1.4;
+
+            margin: 0 15px 15px;
+        }
+
+
+        .sidebar-link {
+            color: white !important;
+
+            padding: 10px 15px;
+
+            transition: 0.2s;
+        }
+
+
+        .sidebar-link:hover {
+            background-color: #0d6efd;
+
+            color: white !important;
+
+            border-radius: 5px;
+        }
+
+
+        .sidebar-link i {
+            margin-right: 8px;
+
+            font-size: 17px;
+        }
+
+
+        /* =========================
+           TOP HEADER
+        ========================= */
+
+        .top-header {
+            height: 60px;
+
+            background-color: white;
+
+            border-bottom: 1px solid #e9ecef;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: flex-end;
+
+            padding: 0 25px;
+        }
+
+
+        .header-item {
+            display: flex;
+
+            align-items: center;
+
+            gap: 7px;
+
+            margin-left: 25px;
+
+            color: #172033;
+
+            font-size: 13px;
+        }
+
+
+        .header-item i {
+            font-size: 18px;
+        }
+
+
+        /* =========================
+           NOTIFICATION
+        ========================== */
+
+        .notification {
+            position: relative;
+        }
+
+
+        .notification-link {
+            color: inherit;
+
+            text-decoration: none;
+
+            position: relative;
+
+            display: inline-flex;
+
+            align-items: center;
+        }
+
+
+        .notification-link:hover {
+            color: inherit;
+        }
+
+
+        .notification-badge {
+            position: absolute;
+
+            top: -8px;
+
+            right: -10px;
+
+            background-color: #0d6efd;
+
+            color: white;
+
+            width: 18px;
+
+            height: 18px;
+
+            border-radius: 50%;
+
+            font-size: 10px;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+        }
+
+
+        /* =========================
+           CNC BANNER
+        ========================== */
+
+        .cnc-banner {
+            width: 100%;
+
+            height: 220px;
+
+            object-fit: cover;
+
+            object-position: center center;
+
+            display: block;
+
+            animation: moveImage 1.2s ease-out;
+        }
+
+
+        @keyframes moveImage {
+
+            from {
+                transform: translateX(-30%);
+
+                opacity: 0;
+            }
+
+            to {
+                transform: translateX(0);
+
+                opacity: 1;
+            }
+
+        }
+
+
+        /* =========================
+           WELCOME CARD
+        ========================== */
+
+        .welcome-card {
+            background-color: white;
+
+            border-radius: 12px;
+
+            padding: 18px 22px;
+
+            margin-bottom: 25px;
+
+            border: 1px solid #e9ecef;
+
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+        }
+
+
+        .welcome-icon {
+            width: 52px;
+
+            height: 52px;
+
+            border-radius: 50%;
+
+            background-color: #eaf2ff;
+
+            color: #0d6efd;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            font-size: 25px;
+
+            flex-shrink: 0;
+        }
+
+
+        .welcome-title {
+            font-size: 17px;
+
+            font-weight: 700;
+
+            color: #172033;
+
+            margin-bottom: 3px;
+        }
+
+
+        .welcome-text {
+            font-size: 12px;
+
+            color: #6c757d;
+
+            margin: 0;
+        }
+
+
+        /* =========================
+           DASHBOARD CARDS
+        ========================== */
+
+        .dashboard-card {
+            background-color: white;
+
+            border: 1px solid #e9ecef;
+
+            border-radius: 12px;
+
+            padding: 20px;
+
+            height: 100%;
+
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+
+            transition: 0.2s;
+        }
+
+
+        .dashboard-card:hover {
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+
+            transform: translateY(-2px);
+        }
+
+
+        /* =========================
+           ICON CIRCLES
+        ========================== */
+
+        .icon-circle {
+            width: 52px;
+
+            height: 52px;
+
+            border-radius: 50%;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            font-size: 25px;
+
+            flex-shrink: 0;
+        }
+
+
+        .icon-blue {
+            background-color: #eaf2ff;
+
+            color: #0d6efd;
+        }
+
+
+        .icon-green {
+            background-color: #e8f7f1;
+
+            color: #198754;
+        }
+
+
+        .icon-orange {
+            background-color: #fff3dc;
+
+            color: #f59f00;
+        }
+
+
+        .icon-red {
+            background-color: #fdeaea;
+
+            color: #dc3545;
+        }
+
+
+        /* =========================
+           CARD TEXT
+        ========================== */
+
+        .card-title-custom {
+            font-size: 14px;
+
+            font-weight: 600;
+
+            color: #333;
+
+            margin-bottom: 4px;
+        }
+
+
+        .card-number {
+            font-size: 28px;
+
+            font-weight: 700;
+
+            color: #172033;
+        }
+
+
+        /* =========================
+           VOIR TOUS
+        ========================== */
+
+        .card-link {
+            color: #0d6efd;
+
+            text-decoration: none;
+
+            font-size: 13px;
+        }
+
+
+        .card-link:hover {
+            text-decoration: underline;
+        }
+
+
+        /* =========================
+           USER PROFILE
+        ========================== */
+
+        .user-profile {
+            display: flex;
+
+            align-items: center;
+
+            padding: 14px 15px;
+
+            border-top: 1px solid rgba(255,255,255,0.15);
+
+            background-color: #021234;
+
+            margin-top: 5px;
+        }
+
+
+        .user-avatar {
+            width: 42px;
+
+            height: 42px;
+
+            border-radius: 50%;
+
+            background-color: white;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            margin-right: 10px;
+
+            flex-shrink: 0;
+
+            color: #021234;
+
+            font-size: 20px;
+        }
+
+
+        .user-info {
+            overflow: hidden;
+        }
+
+
+        .user-name {
+            color: white;
+
+            font-size: 14px;
+
+            font-weight: 600;
+
+            white-space: nowrap;
+        }
+
+
+        .user-role {
+            color: #bfc9da;
+
+            font-size: 11px;
+
+            margin-top: 2px;
+        }
+
+
+        /* =========================
+           ACTIONS RAPIDES
+        ========================== */
+
+        .dashboard-section {
+            background-color: white;
+
+            border: 1px solid #e9ecef;
+
+            border-radius: 12px;
+
+            padding: 18px;
+
+            margin-top: 25px;
+
+            box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+        }
+
+
+        .section-title {
+            font-size: 15px;
+
+            font-weight: 700;
+
+            color: #172033;
+
+            display: flex;
+
+            align-items: center;
+
+            gap: 8px;
+
+            margin-bottom: 15px;
+        }
+
+
+        .section-title i {
+            color: #0d6efd;
+
+            font-size: 17px;
+        }
+
+
+        .quick-actions {
+            display: grid;
+
+            grid-template-columns: repeat(4, 1fr);
+
+            gap: 12px;
+        }
+
+
+        .quick-action-card {
+            position: relative;
+
+            display: flex;
+
+            align-items: center;
+
+            min-height: 72px;
+
+            padding: 12px 13px;
+
+            background-color: #ffffff;
+
+            border: 1px solid #e5e9f0;
+
+            border-radius: 10px;
+
+            text-decoration: none;
+
+            transition: all 0.2s ease;
+        }
+
+
+        .quick-action-card:hover {
+            border-color: #0d6efd;
+
+            transform: translateY(-2px);
+
+            box-shadow: 0 5px 14px rgba(13,110,253,0.10);
+        }
+
+
+        /* Quick Action Icon */
+
+        .quick-icon {
+            width: 42px;
+
+            height: 42px;
+
+            border-radius: 10px;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            flex-shrink: 0;
+
+            font-size: 18px;
+        }
+
+
+        .quick-blue {
+            background-color: #eaf2ff;
+
+            color: #0d6efd;
+        }
+
+
+        .quick-green {
+            background-color: #e8f7f1;
+
+            color: #198754;
+        }
+
+
+        .quick-orange {
+            background-color: #fff3dc;
+
+            color: #f59f00;
+        }
+
+
+        .quick-red {
+            background-color: #fdeaea;
+
+            color: #dc3545;
+        }
+
+
+        /* Quick Action Text */
+
+        .quick-content {
+            display: flex;
+
+            flex-direction: column;
+
+            margin-left: 10px;
+
+            min-width: 0;
+        }
+
+
+        .quick-content span {
+            font-size: 13px;
+
+            font-weight: 600;
+
+            color: #172033;
+
+            white-space: nowrap;
+        }
+
+
+        .quick-content small {
+            font-size: 10px;
+
+            color: #8a94a6;
+
+            margin-top: 2px;
+
+            white-space: nowrap;
+        }
+
+
+        /* Arrow */
+
+        .quick-arrow {
+            margin-left: auto;
+
+            color: #9aa4b2;
+
+            font-size: 13px;
+
+            transition: 0.2s;
+        }
+
+
+        .quick-action-card:hover .quick-arrow {
+            color: #0d6efd;
+
+            transform: translateX(3px);
+        }
+
+
+        /* =========================
+           RESPONSIVE
+        ========================== */
+
+        @media (max-width: 1100px) {
+
+            .quick-actions {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+        }
+
+
+        @media (max-width: 768px) {
+
+            .sidebar {
+                min-height: auto;
+            }
+
+
+            .top-header {
+                justify-content: center;
+            }
+
+
+            .cnc-banner {
+                height: 160px;
+            }
+
+        }
+
+
+        @media (max-width: 600px) {
+
+            .quick-actions {
+                grid-template-columns: 1fr;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+<div class="container-fluid">
+
+    <div class="row">
+
+
+        <!-- =====================================================
+             SIDEBAR
+        ====================================================== -->
+
+        <div class="col-md-2 sidebar text-white">
+
+
+            <!-- =========================
+                 LOGO + COMPANY
+            ========================== -->
+
+            <div class="text-center mt-4">
+
+                <img
+                    src="{{ url_for('static', filename='logo.png') }}"
+                    alt="CNC Fabrication Logo"
+                    class="logo"
+                >
+
+
+                <h3 class="mt-2 mb-1">
+
+                    CNC FABRICATION
+
+                </h3>
+
+
+                <p class="company-description">
+
+                    Société de maintenance et retrofit de machines CNC
+
+                </p>
+
+            </div>
+
+
+            <hr>
+
+
+            <!-- =========================
+                 MENU
+            ========================== -->
+
+            <ul class="nav flex-column">
+
+
+                <!-- CLIENTS -->
+
+                <li class="nav-item mb-2">
+
+                    <a
+                        href="/clients"
+                        class="nav-link sidebar-link"
+                    >
+
+                        <i class="bi bi-people"></i>
+
+                        Clients
+
+                    </a>
+
+                </li>
+
+
+                <!-- MACHINES -->
+
+                <li class="nav-item mb-2">
+
+                    <a
+                        href="/machines"
+                        class="nav-link sidebar-link"
+                    >
+
+                        <i class="bi bi-gear-wide-connected"></i>
+
+                        Machines
+
+                    </a>
+
+                </li>
+
+
+                <!-- INTERVENTIONS -->
+
+                <li class="nav-item mb-2">
+
+                    <a
+                        href="/interventions"
+                        class="nav-link sidebar-link"
+                    >
+
+                        <i class="bi bi-tools"></i>
+
+                        Interventions
+
+                    </a>
+
+                </li>
+
+
+                <!-- TECHNICIENS -->
+
+                <li class="nav-item mb-2">
+
+                    <a
+                        href="/techniciens"
+                        class="nav-link sidebar-link"
+                    >
+
+                        <i class="bi bi-person-gear"></i>
+
+                        Techniciens
+
+                    </a>
+
+                </li>
+
+
+                <!-- STOCK -->
+
+                <li class="nav-item mb-2">
+
+                    <a
+                        href="/stock"
+                        class="nav-link sidebar-link"
+                    >
+
+                        <i class="bi bi-box-seam"></i>
+
+                        Stock
+
+                    </a>
+
+                </li>
+
+
+                <!-- FOURNISSEURS -->
+
+                <li class="nav-item mb-2">
+
+                    <a
+                        href="/fournisseurs"
+                        class="nav-link sidebar-link"
+                    >
+
+                        <i class="bi bi-truck"></i>
+
+                        Fournisseurs
+
+                    </a>
+
+                </li>
+
+
+                <!-- PIECES -->
+
+                <li class="nav-item mb-2">
+
+                    <a
+                        href="/pieces"
+                        class="nav-link sidebar-link"
+                    >
+
+                        <i class="bi bi-wrench-adjustable"></i>
+
+                        Pièces détachées
+
+                    </a>
+
+                </li>
+
+
+                <!-- RAPPORTS -->
+
+                <li class="nav-item mb-2">
+
+                    <a
+                        href="/rapports"
+                        class="nav-link sidebar-link"
+                    >
+
+                        <i class="bi bi-bar-chart-fill"></i>
+
+                        Rapports
+
+                    </a>
+
+                </li>
+
+
+                <!-- CALENDRIER -->
+
+                <li class="nav-item mb-2">
+
+                    <a
+                        href="/calendrier"
+                        class="nav-link sidebar-link"
+                    >
+
+                        <i class="bi bi-calendar3"></i>
+
+                        Calendrier
+
+                    </a>
+
+                </li>
+
+
+                <!-- PARAMETRES -->
+
+                <li class="nav-item mb-2">
+
+                    <a
+                        href="/parametres"
+                        class="nav-link sidebar-link"
+                    >
+
+                        <i class="bi bi-gear-fill"></i>
+
+                        Paramètres
+
+                    </a>
+
+                </li>
+
+
+                <!-- DECONNEXION -->
+
+                <li class="nav-item mb-2">
+
+                    <a
+                        href="/logout"
+                        class="nav-link sidebar-link"
+                    >
+
+                        <i class="bi bi-box-arrow-right"></i>
+
+                        Déconnexion
+
+                    </a>
+
+                </li>
+
+
+                <!-- =========================
+                     USER PROFILE
+                ========================== -->
+
+                <li class="nav-item">
+
+                    <div class="user-profile">
+
+
+                        <div class="user-avatar">
+
+                            👤
+
+                        </div>
+
+
+                        <div class="user-info">
+
+                            <div class="user-name">
+
+                                {{ session["prenom"] }}
+                                {{ session["nom"] }}
+
+                            </div>
+
+
+                            <div class="user-role">
+
+                                {{ session.get("role", "Utilisateur") }}
+
+                            </div>
+
+                        </div>
+
+
+                    </div>
+
+                </li>
+
+
+            </ul>
+
+
+        </div>
+
+
+
+        <!-- =====================================================
+             MAIN CONTENT
+        ====================================================== -->
+
+        <div class="col-md-10 p-0">
+
+
+            <!-- =================================================
+                 TOP HEADER
+            ================================================== -->
+
+            <div class="top-header">
+
+
+                <!-- DATE -->
+
+                <div class="header-item">
+
+                    <i class="bi bi-calendar3"></i>
+
+                    <span id="current-date"></span>
+
+                </div>
+
+
+                <!-- TIME -->
+
+                <div class="header-item">
+
+                    <i class="bi bi-clock"></i>
+
+                    <span id="current-time"></span>
+
+                </div>
+
+
+                <!-- NOTIFICATION -->
+
+                <div class="header-item notification">
+
+                    <a
+                        href="/notifications"
+                        class="notification-link"
+                    >
+
+                        <i class="bi bi-bell"></i>
+
+
+                        {% if nb_notifications > 0 %}
+
+                        <span class="notification-badge">
+
+                            {{ nb_notifications }}
+
+                        </span>
+
+                        {% endif %}
+
+                    </a>
+
+                </div>
+
+
+            </div>
+
+
+
+            <!-- =================================================
+                 CNC BANNER
+            ================================================== -->
+
+            <div class="container-fluid p-0">
+
+                <img
+                    src="{{ url_for('static', filename='cnc-banner.png') }}"
+                    class="cnc-banner"
+                    alt="CNC Fabrication"
+                >
+
+            </div>
+
+
+
+            <!-- =================================================
+                 DASHBOARD CONTENT
+            ================================================== -->
+
+            <div class="p-4">
+
+
+                <!-- =========================
+                     TITLE
+                ========================== -->
+
+                <h1 class="mb-4">
+
+                    Dashboard CNC
+
+                </h1>
+
+
+
+                <!-- =========================
+                     WELCOME
+                ========================== -->
+
+                <div class="welcome-card">
+
+
+                    <div class="d-flex align-items-center gap-3">
+
+
+                        <div class="welcome-icon">
+
+                            <i class="bi bi-speedometer2"></i>
+
+                        </div>
+
+
+                        <div>
+
+                            <div class="welcome-title">
+
+                                Bienvenue,
+                                {{ session["username"] }}
+
+                            </div>
+
+
+                            <p class="welcome-text">
+
+                                Voici un résumé de l'activité
+                                de votre système CNC FABRICATION.
+
+                            </p>
+
+                        </div>
+
+
+                    </div>
+
+
+                </div>
+
+
+
+                <!-- =================================================
+                     DASHBOARD CARDS
+                ================================================== -->
+
+                <div class="row g-3">
+
+
+                    <!-- =========================
+                         CLIENTS
+                    ========================== -->
+
+                    <div class="col-md-3">
+
+                        <div class="dashboard-card">
+
+
+                            <div class="d-flex align-items-center gap-3">
+
+
+                                <div class="icon-circle icon-blue">
+
+                                    <i class="bi bi-people"></i>
+
+                                </div>
+
+
+                                <div>
+
+                                    <div class="card-title-custom">
+
+                                        Clients
+
+                                    </div>
+
+
+                                    <div class="card-number">
+
+                                        {{ nb_clients }}
+
+                                    </div>
+
+                                </div>
+
+
+                            </div>
+
+
+                            <div class="mt-3">
+
+                                <a
+                                    href="/clients"
+                                    class="card-link"
+                                >
+
+                                    Voir tous
+
+                                    <i class="bi bi-chevron-right"></i>
+
+                                </a>
+
+                            </div>
+
+
+                        </div>
+
+                    </div>
+
+
+
+                    <!-- =========================
+                         MACHINES
+                    ========================== -->
+
+                    <div class="col-md-3">
+
+                        <div class="dashboard-card">
+
+
+                            <div class="d-flex align-items-center gap-3">
+
+
+                                <div class="icon-circle icon-green">
+
+                                    <i class="bi bi-gear-wide-connected"></i>
+
+                                </div>
+
+
+                                <div>
+
+                                    <div class="card-title-custom">
+
+                                        Machines
+
+                                    </div>
+
+
+                                    <div class="card-number">
+
+                                        {{ nb_machines }}
+
+                                    </div>
+
+                                </div>
+
+
+                            </div>
+
+
+                            <div class="mt-3">
+
+                                <a
+                                    href="/machines"
+                                    class="card-link"
+                                >
+
+                                    Voir tous
+
+                                    <i class="bi bi-chevron-right"></i>
+
+                                </a>
+
+                            </div>
+
+
+                        </div>
+
+                    </div>
+
+
+
+                    <!-- =========================
+                         INTERVENTIONS
+                    ========================== -->
+
+                    <div class="col-md-3">
+
+                        <div class="dashboard-card">
+
+
+                            <div class="d-flex align-items-center gap-3">
+
+
+                                <div class="icon-circle icon-orange">
+
+                                    <i class="bi bi-tools"></i>
+
+                                </div>
+
+
+                                <div>
+
+                                    <div class="card-title-custom">
+
+                                        Interventions
+
+                                    </div>
+
+
+                                    <div class="card-number">
+
+                                        {{ nb_interventions }}
+
+                                    </div>
+
+                                </div>
+
+
+                            </div>
+
+
+                            <div class="mt-3">
+
+                                <a
+                                    href="/interventions"
+                                    class="card-link"
+                                >
+
+                                    Voir tous
+
+                                    <i class="bi bi-chevron-right"></i>
+
+                                </a>
+
+                            </div>
+
+
+                        </div>
+
+                    </div>
+
+
+
+                    <!-- =========================
+                         TECHNICIENS
+                    ========================== -->
+
+                    <div class="col-md-3">
+
+                        <div class="dashboard-card">
+
+
+                            <div class="d-flex align-items-center gap-3">
+
+
+                                <div class="icon-circle icon-red">
+
+                                    <i class="bi bi-person-gear"></i>
+
+                                </div>
+
+
+                                <div>
+
+                                    <div class="card-title-custom">
+
+                                        Techniciens
+
+                                    </div>
+
+
+                                    <div class="card-number">
+
+                                        {{ nb_techniciens }}
+
+                                    </div>
+
+                                </div>
+
+
+                            </div>
+
+
+                            <div class="mt-3">
+
+                                <a
+                                    href="/techniciens"
+                                    class="card-link"
+                                >
+
+                                    Voir tous
+
+                                    <i class="bi bi-chevron-right"></i>
+
+                                </a>
+
+                            </div>
+
+
+                        </div>
+
+                    </div>
+
+
+                </div>
+
+
+
+                <!-- =================================================
+                     ACTIONS RAPIDES
+                ================================================== -->
+
+                <div class="dashboard-section">
+
+
+                    <div class="section-title">
+
+                        <i class="bi bi-lightning-charge-fill"></i>
+
+                        Actions rapides
+
+                    </div>
+
+
+                    <div class="quick-actions">
+
+
+                        <!-- NOUVEAU CLIENT -->
+
+                        <a
+                            href="/add_client"
+                            class="quick-action-card"
+                        >
+
+                            <div class="quick-icon quick-blue">
+
+                                <i class="bi bi-person-plus-fill"></i>
+
+                            </div>
+
+
+                            <div class="quick-content">
+
+                                <span>
+
+                                    Nouveau client
+
+                                </span>
+
+
+                                <small>
+
+                                    Ajouter un client
+
+                                </small>
+
+                            </div>
+
+
+                            <i
+                                class="bi bi-arrow-right quick-arrow"
+                            ></i>
+
+                        </a>
+
+
+
+                        <!-- NOUVELLE MACHINE -->
+
+                        <a
+                            href="/add_machine"
+                            class="quick-action-card"
+                        >
+
+                            <div class="quick-icon quick-green">
+
+                                <i class="bi bi-pc-display"></i>
+
+                            </div>
+
+
+                            <div class="quick-content">
+
+                                <span>
+
+                                    Nouvelle machine
+
+                                </span>
+
+
+                                <small>
+
+                                    Ajouter une machine
+
+                                </small>
+
+                            </div>
+
+
+                            <i
+                                class="bi bi-arrow-right quick-arrow"
+                            ></i>
+
+                        </a>
+
+
+
+                        <!-- NOUVELLE INTERVENTION -->
+
+                        <a
+                            href="/add_intervention"
+                            class="quick-action-card"
+                        >
+
+                            <div class="quick-icon quick-orange">
+
+                                <i class="bi bi-wrench-adjustable"></i>
+
+                            </div>
+
+
+                            <div class="quick-content">
+
+                                <span>
+
+                                    Nouvelle intervention
+
+                                </span>
+
+
+                                <small>
+
+                                    Créer une intervention
+
+                                </small>
+
+                            </div>
+
+
+                            <i
+                                class="bi bi-arrow-right quick-arrow"
+                            ></i>
+
+                        </a>
+
+
+
+                        <!-- NOUVEAU TECHNICIEN -->
+
+                        <a
+                            href="/add_technicien"
+                            class="quick-action-card"
+                        >
+
+                            <div class="quick-icon quick-red">
+
+                                <i class="bi bi-person-gear"></i>
+
+                            </div>
+
+
+                            <div class="quick-content">
+
+                                <span>
+
+                                    Nouveau technicien
+
+                                </span>
+
+
+                                <small>
+
+                                    Ajouter un technicien
+
+                                </small>
+
+                            </div>
+
+
+                            <i
+                                class="bi bi-arrow-right quick-arrow"
+                            ></i>
+
+                        </a>
+
+
+                    </div>
+
+
+                </div>
+
+
+
+                <!-- =================================================
+                     DERNIERES INTERVENTIONS
+                ================================================== -->
+
+                <div class="dashboard-section">
+
+
+                    <div class="section-title">
+
+                        <i class="bi bi-clock-history"></i>
+
+                        Dernières interventions
+
+                    </div>
+
+
+                    <div class="table-responsive">
+
+
+                        <table class="table table-hover align-middle mb-0">
+
+
+                            <thead class="table-light">
+
+                                <tr>
+
+                                    <th>Date</th>
+
+                                    <th>Client</th>
+
+                                    <th>Machine</th>
+
+                                    <th>Statut</th>
+
+                                    <th>Technicien</th>
+
+                                </tr>
+
+                            </thead>
+
+
+                            <tbody>
+
+
+                            {% for intervention in dernieres_interventions %}
+
+
+                                <tr>
+
+
+                                    <!-- DATE -->
+
+                                    <td>
+
+                                        {{ intervention[0] }}
+
+                                    </td>
+
+
+                                    <!-- CLIENT -->
+
+                                    <td>
+
+                                        {{ intervention[1] }}
+
+                                    </td>
+
+
+                                    <!-- MACHINE -->
+
+                                    <td>
+
+                                        {{ intervention[2] }}
+
+                                    </td>
+
+
+                                    <!-- STATUT -->
+
+                                    <td>
+
+
+                                        {% if intervention[3] == "En attente" %}
+
+                                            <span class="badge bg-warning text-dark">
+
+                                                {{ intervention[3] }}
+
+                                            </span>
+
+                                        {% elif intervention[3] == "En cours" %}
+
+                                            <span class="badge bg-primary">
+
+                                                {{ intervention[3] }}
+
+                                            </span>
+
+                                        {% elif intervention[3] == "Terminée" %}
+
+                                            <span class="badge bg-success">
+
+                                                {{ intervention[3] }}
+
+                                            </span>
+
+                                        {% else %}
+
+                                            <span class="badge bg-secondary">
+
+                                                {{ intervention[3] }}
+
+                                            </span>
+
+                                        {% endif %}
+
+
+                                    </td>
+
+
+                                    <!-- TECHNICIEN -->
+
+                                    <td>
+
+                                        {{ intervention[4] }}
+
+                                    </td>
+
+
+                                </tr>
+
+
+                            {% else %}
+
+
+                                <tr>
+
+                                    <td
+                                        colspan="5"
+                                        class="text-center text-muted py-4"
+                                    >
+
+                                        Aucune intervention enregistrée.
+
+                                    </td>
+
+                                </tr>
+
+
+                            {% endfor %}
+
+
+                            </tbody>
+
+
+                        </table>
+
+
+                    </div>
+
+
+                </div>
+
+
+            </div>
+
+
+        </div>
+
+
+    </div>
+
+
+</div>
+
+
+
+<!-- =========================================================
+     DATE + TIME JAVASCRIPT
+========================================================= -->
+
+<script>
+
+    function updateDateTime() {
+
+
+        const now = new Date();
+
+
+        /* =========================
+           DATE
+        ========================== */
+
+        const date = now.toLocaleDateString(
+
+            "fr-FR",
+
+            {
+                day: "2-digit",
+
+                month: "short",
+
+                year: "numeric"
+            }
+
+        );
+
+
+        /* =========================
+           TIME
+        ========================== */
+
+        const time = now.toLocaleTimeString(
+
+            "fr-FR",
+
+            {
+                hour: "2-digit",
+
+                minute: "2-digit"
+            }
+
+        );
+
+
+        document.getElementById(
+            "current-date"
+        ).textContent = date;
+
+
+        document.getElementById(
+            "current-time"
+        ).textContent = time;
+
+    }
+
+
+    /* Première exécution */
+
+    updateDateTime();
+
+
+    /* Mise à jour chaque seconde */
+
+    setInterval(
+        updateDateTime,
+        1000
+    );
+
+</script>
+
+
+</body>
+
+</html>

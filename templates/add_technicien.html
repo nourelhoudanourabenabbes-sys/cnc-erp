@@ -1,0 +1,190 @@
+
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Ajouter Technicien</title>
+
+    <link
+        href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+        rel="stylesheet"
+    >
+
+    <style>
+
+        .btn-ajouter {
+            border: 1px solid #0d6efd;
+            background-color: white;
+            color: #0d6efd;
+        }
+
+        .btn-ajouter:hover {
+            background-color: #0d6efd;
+            color: white;
+        }
+
+        .btn-retour {
+            border: 1px solid #6c757d;
+            background-color: white;
+            color: #6c757d;
+        }
+
+        .btn-retour:hover {
+            background-color: #6c757d;
+            color: white;
+        }
+
+    </style>
+
+</head>
+
+
+<body class="bg-light">
+
+
+<div class="container mt-5">
+
+    <div class="card shadow-sm">
+
+        <div class="card-body p-4">
+
+            <h1 class="mb-4">
+                Ajouter un Technicien
+            </h1>
+
+
+            {% if error %}
+
+            <div class="alert alert-danger">
+                {{ error }}
+            </div>
+
+            {% endif %}
+
+
+            <form method="POST">
+
+
+                <!-- Informations personnelles -->
+
+                <div class="mb-3">
+
+                    <label class="form-label">
+                        Nom
+                    </label>
+
+                    <input
+                        type="text"
+                        name="nom"
+                        class="form-control"
+                        required
+                    >
+
+                </div>
+
+
+                <div class="mb-3">
+
+                    <label class="form-label">
+                        Prénom
+                    </label>
+
+                    <input
+                        type="text"
+                        name="prenom"
+                        class="form-control"
+                        required
+                    >
+
+                </div>
+
+
+                <div class="mb-3">
+
+                    <label class="form-label">
+                        Spécialité
+                    </label>
+
+                    <input
+                        type="text"
+                        name="specialite"
+                        class="form-control"
+                        placeholder="Ex: Maintenance CNC"
+                    >
+
+                </div>
+
+
+                <div class="mb-3">
+
+                    <label class="form-label">
+                        Téléphone
+                    </label>
+
+                    <input
+                        type="text"
+                        name="telephone"
+                        class="form-control"
+                    >
+
+                </div>
+
+
+                <div class="mb-4">
+
+                    <label class="form-label">
+                        Email
+                    </label>
+
+                    <input
+                        type="email"
+                        name="email"
+                        class="form-control"
+                        required
+                    >
+
+                </div>
+
+
+                <hr>
+
+
+                <p class="text-muted">
+                    Un lien d'activation sera envoyé à l'adresse email
+                    du technicien afin qu'il puisse créer son mot de passe.
+                </p>
+
+
+                <button
+                    type="submit"
+                    class="btn btn-ajouter"
+                >
+                    Ajouter le Technicien
+                </button>
+
+
+                <a
+                    href="/techniciens"
+                    class="btn btn-retour ms-2"
+                >
+                    Retour
+                </a>
+
+
+            </form>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+</body>
+
+</html>
+```

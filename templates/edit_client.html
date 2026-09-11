@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Modifier Client</title>
+
+    <link
+        href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+        rel="stylesheet"
+    >
+
+</head>
+
+<body class="bg-light">
+
+<div class="container mt-5">
+
+    <div class="card shadow-sm">
+
+        <div class="card-body p-4">
+
+            <h1 class="mb-4">
+                Modifier Client
+            </h1>
+
+            <form method="POST">
+
+                <!-- Nom -->
+
+                <div class="mb-3">
+
+                    <label class="form-label">
+                        Nom
+                    </label>
+
+                    <input
+                        type="text"
+                        name="nom"
+                        class="form-control"
+                        value="{{ client[1] }}"
+                        required
+                    >
+
+                </div>
+
+
+                <!-- Prénom -->
+
+                <div class="mb-3">
+
+                    <label class="form-label">
+                        Prénom
+                    </label>
+
+                    <input
+                        type="text"
+                        name="prenom"
+                        class="form-control"
+                        value="{{ client[2] or '' }}"
+                        required
+                    >
+
+                </div>
+
+
+                <!-- Adresse -->
+
+                <div class="mb-3">
+
+                    <label class="form-label">
+                        Adresse
+                    </label>
+
+                    <textarea
+                        name="adresse"
+                        class="form-control"
+                        rows="3"
+                    >{{ client[3] or '' }}</textarea>
+
+                </div>
+
+
+                <!-- Téléphone -->
+
+                <div class="mb-3">
+
+                    <label class="form-label">
+                        Téléphone
+                    </label>
+
+                    <input
+                        type="text"
+                        name="telephone"
+                        class="form-control"
+                        value="{{ client[4] or '' }}"
+                    >
+
+                </div>
+
+
+                <!-- Email -->
+
+                <div class="mb-3">
+
+                    <label class="form-label">
+                        Email
+                    </label>
+
+                    <input
+                        type="email"
+                        name="email"
+                        class="form-control"
+                        value="{{ client[5] or '' }}"
+                    >
+
+                </div>
+
+
+                <!-- Numéro fiscal -->
+
+                <div class="mb-4">
+
+                    <label class="form-label">
+                        Numéro fiscal
+                    </label>
+
+                    <input
+                        type="text"
+                        name="num_fiscal"
+                        class="form-control"
+                        value="{{ client[6] or '' }}"
+                    >
+
+                </div>
+
+
+                <button
+                    type="submit"
+                    class="btn btn-outline-primary"
+                >
+                    Enregistrer
+                </button>
+
+
+                <a
+                    href="/clients"
+                    class="btn btn-outline-secondary ms-2"
+                >
+                    Annuler
+                </a>
+
+            </form>
+
+        </div>
+
+    </div>
+
+</div>
+
+</body>
+
+</html>

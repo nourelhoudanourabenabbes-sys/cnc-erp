@@ -1,0 +1,996 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Calendrier</title>
+
+    <link
+        href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+        rel="stylesheet"
+    >
+
+    <link
+        rel="stylesheet"
+        href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css"
+    >
+
+    <style>
+
+        body {
+            background: #f4f7fb;
+            font-family: Arial, sans-serif;
+        }
+
+        .page-title {
+            color: #071b41;
+            font-weight: 700;
+        }
+
+        .page-subtitle {
+            color: #7b8798;
+        }
+
+        .calendar-box,
+        .tasks-box {
+            background: white;
+            border-radius: 16px;
+            box-shadow: 0 4px 18px rgba(0, 0, 0, 0.06);
+            border: 1px solid #e7ebf2;
+        }
+
+        .calendar-box {
+            padding: 25px;
+        }
+
+        .tasks-box {
+            padding: 25px;
+            min-height: 500px;
+        }
+
+        .calendar-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+        }
+
+        .month-title {
+            font-size: 22px;
+            font-weight: 700;
+            color: #071b41;
+        }
+
+        .month-buttons button {
+            border: none;
+            background: #eef3fb;
+            color: #0d3b82;
+            width: 38px;
+            height: 38px;
+            border-radius: 8px;
+            margin-left: 5px;
+        }
+
+        .month-buttons button:hover {
+            background: #0d3b82;
+            color: white;
+        }
+
+        .weekdays,
+        .days {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 6px;
+        }
+
+        .weekday {
+            text-align: center;
+            color: #7b8798;
+            font-size: 13px;
+            font-weight: 600;
+            padding: 8px 0;
+        }
+
+        .day {
+            min-height: 55px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            color: #25324a;
+            position: relative;
+        }
+
+        .day:hover {
+            background: #eef4ff;
+        }
+
+        .day.other-month {
+            color: #c5cbd5;
+        }
+
+        .day.today {
+            background: #0d6efd;
+            color: white;
+            font-weight: bold;
+        }
+
+        .day.selected {
+            box-shadow: inset 0 0 0 2px #0d6efd;
+            font-weight: bold;
+        }
+
+        .day.has-task::after {
+            content: "";
+            position: absolute;
+            bottom: 7px;
+            width: 5px;
+            height: 5px;
+            border-radius: 50%;
+            background: #0d6efd;
+        }
+
+        .day.today.has-task::after {
+            background: white;
+        }
+
+        .tasks-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .tasks-title {
+            color: #071b41;
+            font-weight: 700;
+            font-size: 20px;
+        }
+
+        .task-count {
+            background: #e9f1ff;
+            color: #0d6efd;
+            padding: 5px 10px;
+            border-radius: 20px;
+            font-size: 13px;
+            font-weight: 600;
+        }
+
+        .task-card {
+            border: 1px solid #e8ecf2;
+            border-left: 4px solid #0d6efd;
+            border-radius: 10px;
+            padding: 15px;
+            margin-bottom: 12px;
+            transition: 0.2s;
+        }
+
+        .task-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.06);
+        }
+
+        .task-title {
+            font-weight: 700;
+            color: #17233c;
+            margin-bottom: 8px;
+        }
+
+        .task-info {
+            color: #7b8798;
+            font-size: 13px;
+            margin-bottom: 5px;
+        }
+
+        .task-info i {
+            margin-right: 5px;
+        }
+
+        .badge-status {
+            font-size: 11px;
+            padding: 5px 8px;
+            border-radius: 6px;
+        }
+
+        .status-attente {
+            background: #fff3cd;
+            color: #856404;
+        }
+
+        .status-cours {
+            background: #cfe2ff;
+            color: #084298;
+        }
+
+        .status-termine {
+            background: #d1e7dd;
+            color: #0f5132;
+        }
+
+        .priority-haute {
+            color: #dc3545;
+        }
+
+        .priority-moyenne {
+            color: #fd7e14;
+        }
+
+        .priority-basse {
+            color: #198754;
+        }
+
+        .empty {
+            text-align: center;
+            padding: 80px 20px;
+            color: #9aa4b2;
+        }
+
+        .empty i {
+            font-size: 45px;
+            margin-bottom: 15px;
+        }
+
+        .btn-new {
+            background: #0d6efd;
+            color: white;
+            border: none;
+            border-radius: 9px;
+            padding: 10px 16px;
+        }
+
+        .btn-new:hover {
+            background: #0b5ed7;
+            color: white;
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+<div class="container-fluid p-4">
+
+
+    <!-- HEADER -->
+
+    <div class="d-flex justify-content-between align-items-center mb-4">
+
+        <div>
+
+            <h1 class="page-title mb-1">
+                Calendrier
+            </h1>
+
+            <p class="page-subtitle mb-0">
+                Gestion des tâches et planning des techniciens
+            </p>
+
+        </div>
+
+
+        <a
+            href="/"
+            class="btn btn-outline-primary"
+        >
+            <i class="bi bi-house"></i>
+            Dashboard
+        </a>
+
+    </div>
+
+
+    <!-- CONTENT -->
+
+    <div class="row g-4">
+
+
+        <!-- CALENDRIER -->
+
+        <div class="col-lg-5">
+
+            <div class="calendar-box">
+
+                <div class="calendar-header">
+
+                    <div
+                        class="month-title"
+                        id="monthTitle"
+                    >
+                    </div>
+
+
+                    <div class="month-buttons">
+
+                        <button onclick="previousMonth()">
+                            <i class="bi bi-chevron-left"></i>
+                        </button>
+
+                        <button onclick="goToday()">
+                            <i class="bi bi-calendar-check"></i>
+                        </button>
+
+                        <button onclick="nextMonth()">
+                            <i class="bi bi-chevron-right"></i>
+                        </button>
+
+                    </div>
+
+                </div>
+
+
+                <div class="weekdays">
+
+                    <div class="weekday">Lun</div>
+                    <div class="weekday">Mar</div>
+                    <div class="weekday">Mer</div>
+                    <div class="weekday">Jeu</div>
+                    <div class="weekday">Ven</div>
+                    <div class="weekday">Sam</div>
+                    <div class="weekday">Dim</div>
+
+                </div>
+
+
+                <div
+                    class="days"
+                    id="days"
+                >
+                </div>
+
+
+            </div>
+
+        </div>
+
+
+        <!-- TACHES -->
+
+        <div class="col-lg-7">
+
+            <div class="tasks-box">
+
+
+                <div class="tasks-header">
+
+                    <div>
+
+                        <div
+                            class="tasks-title"
+                            id="selectedDateTitle"
+                        >
+                            Aujourd'hui
+                        </div>
+
+                        <small class="text-muted">
+                            Tâches programmées
+                        </small>
+
+                    </div>
+
+
+                    <span
+                        class="task-count"
+                        id="taskCount"
+                    >
+                        0 tâche
+                    </span>
+
+                </div>
+
+
+                <div id="taskList">
+                </div>
+
+
+            </div>
+
+        </div>
+
+
+    </div>
+
+
+</div>
+
+
+<script>
+
+
+/* =========================
+   DONNÉES DES TÂCHES
+========================= */
+
+const tasks = [
+
+{% for tache in taches %}
+
+{
+    id: {{ tache[0] | tojson }},
+
+    title: {{ tache[1] | tojson }},
+
+    description: {{ (tache[2] or '') | tojson }},
+
+    status: {{ (tache[3] or '') | tojson }},
+
+    priority: {{ (tache[4] or '') | tojson }},
+
+    start: {{ tache[5].strftime('%Y-%m-%d') if tache[5] else 'null' | tojson }},
+
+    end: {{ tache[6].strftime('%Y-%m-%d') if tache[6] else 'null' | tojson }},
+
+    technician: {{ (tache[7] or '') | tojson }}
+},
+
+{% endfor %}
+
+];
+
+
+/* =========================
+   DATE ACTUELLE
+========================= */
+
+let currentDate = new Date();
+
+let selectedDate = new Date();
+
+
+/* =========================
+   NOMS DES MOIS
+========================= */
+
+const months = [
+
+    "Janvier",
+    "Février",
+    "Mars",
+    "Avril",
+    "Mai",
+    "Juin",
+    "Juillet",
+    "Août",
+    "Septembre",
+    "Octobre",
+    "Novembre",
+    "Décembre"
+
+];
+
+
+/* =========================
+   FORMAT DATE
+========================= */
+
+function formatDate(date) {
+
+    const year = date.getFullYear();
+
+    const month = String(
+        date.getMonth() + 1
+    ).padStart(2, "0");
+
+    const day = String(
+        date.getDate()
+    ).padStart(2, "0");
+
+    return `${year}-${month}-${day}`;
+
+}
+
+
+/* =========================
+   AFFICHER CALENDRIER
+========================= */
+
+function renderCalendar() {
+
+
+    const year = currentDate.getFullYear();
+
+    const month = currentDate.getMonth();
+
+
+    document.getElementById("monthTitle").innerText =
+        months[month] + " " + year;
+
+
+    const daysContainer =
+        document.getElementById("days");
+
+
+    daysContainer.innerHTML = "";
+
+
+    const firstDay =
+        new Date(year, month, 1);
+
+
+    let firstDayIndex =
+        firstDay.getDay();
+
+
+    /*
+       Dimanche = 0
+       On veut Lundi = 0
+    */
+
+    firstDayIndex =
+        firstDayIndex === 0
+        ? 6
+        : firstDayIndex - 1;
+
+
+    const daysInMonth =
+        new Date(
+            year,
+            month + 1,
+            0
+        ).getDate();
+
+
+    const previousMonthDays =
+        new Date(
+            year,
+            month,
+            0
+        ).getDate();
+
+
+    /* jours du mois précédent */
+
+    for (
+        let i = firstDayIndex - 1;
+        i >= 0;
+        i--
+    ) {
+
+        const dayNumber =
+            previousMonthDays - i;
+
+        const div =
+            document.createElement("div");
+
+        div.className =
+            "day other-month";
+
+        div.innerText =
+            dayNumber;
+
+        daysContainer.appendChild(div);
+
+    }
+
+
+    /* jours du mois actuel */
+
+    for (
+        let day = 1;
+        day <= daysInMonth;
+        day++
+    ) {
+
+        const div =
+            document.createElement("div");
+
+
+        div.className =
+            "day";
+
+
+        const date =
+            new Date(
+                year,
+                month,
+                day
+            );
+
+
+        const dateString =
+            formatDate(date);
+
+
+        div.innerText =
+            day;
+
+
+        /* aujourd'hui */
+
+        if (
+            dateString ===
+            formatDate(new Date())
+        ) {
+
+            div.classList.add("today");
+
+        }
+
+
+        /* date sélectionnée */
+
+        if (
+            dateString ===
+            formatDate(selectedDate)
+        ) {
+
+            div.classList.add("selected");
+
+        }
+
+
+        /* tâches */
+
+        const hasTask =
+            tasks.some(
+                task =>
+                    task.start === dateString
+            );
+
+
+        if (hasTask) {
+
+            div.classList.add("has-task");
+
+        }
+
+
+        div.onclick = function () {
+
+            selectedDate =
+                new Date(
+                    year,
+                    month,
+                    day
+                );
+
+            renderCalendar();
+
+            showTasks(dateString);
+
+        };
+
+
+        daysContainer.appendChild(div);
+
+    }
+
+
+    /* jours du mois suivant */
+
+    const totalCells =
+        daysContainer.children.length;
+
+
+    const remaining =
+        42 - totalCells;
+
+
+    for (
+        let i = 1;
+        i <= remaining;
+        i++
+    ) {
+
+        const div =
+            document.createElement("div");
+
+        div.className =
+            "day other-month";
+
+        div.innerText =
+            i;
+
+        daysContainer.appendChild(div);
+
+    }
+
+}
+
+
+/* =========================
+   AFFICHER LES TÂCHES
+========================= */
+
+function showTasks(dateString) {
+
+
+    const list =
+        document.getElementById("taskList");
+
+
+    const title =
+        document.getElementById(
+            "selectedDateTitle"
+        );
+
+
+    const count =
+        document.getElementById(
+            "taskCount"
+        );
+
+
+    const date =
+        new Date(
+            dateString + "T00:00:00"
+        );
+
+
+    title.innerText =
+        date.toLocaleDateString(
+            "fr-FR",
+            {
+                weekday: "long",
+                day: "numeric",
+                month: "long",
+                year: "numeric"
+            }
+        );
+
+
+    const selectedTasks =
+        tasks.filter(
+            task =>
+                task.start === dateString
+        );
+
+
+    count.innerText =
+        selectedTasks.length +
+        (
+            selectedTasks.length > 1
+            ? " tâches"
+            : " tâche"
+        );
+
+
+    list.innerHTML = "";
+
+
+    if (selectedTasks.length === 0) {
+
+        list.innerHTML = `
+
+            <div class="empty">
+
+                <i class="bi bi-calendar-x"></i>
+
+                <h5>
+                    Aucune tâche
+                </h5>
+
+                <p>
+                    Aucune tâche n'est programmée
+                    pour cette date.
+                </p>
+
+            </div>
+
+        `;
+
+        return;
+
+    }
+
+
+    selectedTasks.forEach(task => {
+
+
+        let statusClass =
+            "status-attente";
+
+
+        const status =
+            task.status.toLowerCase();
+
+
+        if (
+            status.includes("cours")
+        ) {
+
+            statusClass =
+                "status-cours";
+
+        }
+
+
+        if (
+            status.includes("termin")
+        ) {
+
+            statusClass =
+                "status-termine";
+
+        }
+
+
+        let priorityClass =
+            "priority-moyenne";
+
+
+        const priority =
+            task.priority.toLowerCase();
+
+
+        if (
+            priority.includes("haute")
+        ) {
+
+            priorityClass =
+                "priority-haute";
+
+        }
+
+
+        if (
+            priority.includes("basse")
+        ) {
+
+            priorityClass =
+                "priority-basse";
+
+        }
+
+
+        const card =
+            document.createElement("div");
+
+
+        card.className =
+            "task-card";
+
+
+        card.innerHTML = `
+
+            <div class="d-flex justify-content-between align-items-start">
+
+                <div class="task-title">
+
+                    ${escapeHtml(task.title)}
+
+                </div>
+
+
+                <span class="badge-status ${statusClass}">
+
+                    ${escapeHtml(task.status)}
+
+                </span>
+
+            </div>
+
+
+            <div class="task-info">
+
+                <i class="bi bi-person"></i>
+
+                ${escapeHtml(task.technician)}
+
+            </div>
+
+
+            <div class="task-info">
+
+                <i class="bi bi-flag-fill ${priorityClass}"></i>
+
+                Priorité :
+                ${escapeHtml(task.priority)}
+
+            </div>
+
+
+            ${
+                task.description
+                ?
+                `
+                <div class="task-info mt-2">
+
+                    <i class="bi bi-card-text"></i>
+
+                    ${escapeHtml(task.description)}
+
+                </div>
+                `
+                :
+                ""
+            }
+
+        `;
+
+
+        list.appendChild(card);
+
+    });
+
+}
+
+
+/* =========================
+   NAVIGATION
+========================= */
+
+function previousMonth() {
+
+    currentDate.setMonth(
+        currentDate.getMonth() - 1
+    );
+
+    renderCalendar();
+
+}
+
+
+function nextMonth() {
+
+    currentDate.setMonth(
+        currentDate.getMonth() + 1
+    );
+
+    renderCalendar();
+
+}
+
+
+function goToday() {
+
+    currentDate =
+        new Date();
+
+    selectedDate =
+        new Date();
+
+    renderCalendar();
+
+    showTasks(
+        formatDate(
+            selectedDate
+        )
+    );
+
+}
+
+
+/* =========================
+   PROTECTION HTML
+========================= */
+
+function escapeHtml(text) {
+
+    const div =
+        document.createElement("div");
+
+    div.textContent =
+        text;
+
+    return div.innerHTML;
+
+}
+
+
+/* =========================
+   INITIALISATION
+========================= */
+
+renderCalendar();
+
+showTasks(
+    formatDate(
+        selectedDate
+    )
+);
+
+
+</script>
+
+
+</body>
+
+</html>
